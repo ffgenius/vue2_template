@@ -1,7 +1,7 @@
 import axios from 'axios'
 import router from '@/router'
 import config from '../../config/config'
-import cache from "@/utils/cache";
+import cache from '@/utils/cache'
 import { Message } from 'element-ui'
 
 /*
@@ -55,14 +55,17 @@ request.interceptors.response.use(response => {
     return response
   }
 }, error => {
-  if (error.message.substring(0, 10) === 'timeout of') { // 请求超时，提示错误（timeout of 6000ms exceeded）
+  if (error.message.substring(0, 10) === 'timeout of') {
+    // 请求超时，提示错误（timeout of 6000ms exceeded）
     Message.error(`请求超时：${error.config.timeout / 1000}秒`)
     console.error(`请求超时：${error.config.timeout / 1000}秒 ${error.config.baseURL}${error.config.url}?${error.config.data}`)
-  } else if (error.message === 'Network Error') { // 网络不通，提示错误
+  } else if (error.message === 'Network Error') {
+    // 网络不通，提示错误
     Message.error('连接服务器失败')
     console.error(`连接服务器失败：${error.config.baseURL}${error.config.url}?${error.config.data}`)
   } else {
-    Message.error(error.message) // 其他错误，提示错误
+    // 其他错误，提示错误
+    Message.error(error.message)
     console.error(`请求未知错误：${error.config.baseURL}${error.config.url}?${error.config.data}`)
   }
   return Promise.reject(new Error(error))

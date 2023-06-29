@@ -2,6 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 
 const port = process.env.port || process.env.npm_config_port || 80 // 端口
 const baseApi = process.env.VUE_APP_BASE_API
+const title = process.env.VUE_APP_TITLE || 'vue.js app'
 
 module.exports = defineConfig({
 
@@ -28,5 +29,14 @@ module.exports = defineConfig({
         }
       }
     }
+  },
+  chainWebpack: config => {
+    config
+      .plugin('html')
+      .tap(args => {
+        // 配置网页标题
+        args[0].title= title
+        return args
+      })
   }
 })

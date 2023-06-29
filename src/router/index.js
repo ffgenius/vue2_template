@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { getToken } from '@/utils/auth'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,26 @@ VueRouter.prototype.replace = function push(location) {
 const router = new VueRouter({
   routes,
   scrollBehavior: () => ({ y: 0 })
+})
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  if (getToken()) {
+    if (to.path === '/login') {
+      // 用户已登录，直接跳转到根路径或其他合适的页面
+      next({ path: '/' })
+    } else {
+      // 用户已登录，正常进行路由导航
+      next()
+    }
+  } else {
+    // 用户未登录，跳转到登录页面
+    if (to.path === '/login') {
+      next()
+    } else {
+      next(`/login?redirect=${ to.fullPath }`)
+    }
+  }
 })
 
 export default router
