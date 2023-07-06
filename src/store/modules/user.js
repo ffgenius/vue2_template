@@ -1,10 +1,10 @@
 const user = ({
-    state: {
-    },
-    mutations: {
-    },
-    actions: {
-    },
+  state: {
+  },
+  mutations: {
+  },
+  actions: {
+  }
 })
 
 export default user

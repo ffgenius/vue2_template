@@ -9,9 +9,9 @@ import { Message } from 'element-ui'
 * */
 const request = axios.create({
   baseURL: config.baseURL || '/',
-  timeout: 60000,
+  timeout: 10000,
   responseType: 'json',
-  withCredentials: false, // 是否允许带cookie这些
+  withCredentials: false // 是否允许带cookie这些
 })
 
 /*
@@ -22,12 +22,12 @@ request.interceptors.request.use(config => {
     config.params &&
     Object.keys(config.params).forEach((item) => {
       if (
-          config.params[item] === null ||
+        config.params[item] === null ||
           config.params[item] === undefined
       ) {
         config.params[item] = ''
       }
-    });
+    })
   } else {
     config.data &&
     Object.keys(config.data).forEach((item) => {
@@ -38,7 +38,7 @@ request.interceptors.request.use(config => {
   }
   let token = cache.local.get('token')
   if (token) {
-    config.headers['Authorization'] = 'Bearer ' + token;
+    config.headers['Authorization'] = 'Bearer ' + token
   }
   return config
 })
@@ -51,9 +51,8 @@ request.interceptors.response.use(response => {
   if (response.data && response.data.code === 401) {
     cache.local.remove('token')
     router.push({name: 'login'}).then()
-   } else {
-    return response
   }
+  return response
 }, error => {
   if (error.message.substring(0, 10) === 'timeout of') {
     // 请求超时，提示错误（timeout of 6000ms exceeded）

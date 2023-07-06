@@ -35,7 +35,7 @@ module.exports = defineConfig({
       .plugin('html')
       .tap(args => {
         // 配置网页标题
-        args[0].title= title
+        args[0].title = title
         return args
       })
   }
